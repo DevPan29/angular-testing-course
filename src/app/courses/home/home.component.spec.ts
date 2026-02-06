@@ -21,7 +21,11 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
   let component:HomeComponent;
   let el: DebugElement;
-  let coursesService: CoursesService;
+  let coursesService: any;
+  const beginnnerCourses = setupCourses()
+    .filter(course => course.category === 'BEGINNER');
+  const advancedCourses = setupCourses()
+    .filter(course => course.category === 'ADVANCED');
 
   beforeEach(waitForAsync(() => {
 
@@ -53,23 +57,42 @@ describe('HomeComponent', () => {
 
   it("should display only beginner courses", () => {
 
-    pending();
+    coursesService.findAllCourses.and.returnValue(of(beginnnerCourses));
+    fixture.detectChanges() 
+
+    // here the observable  beginnerCourses$ of HomeComponent should be resolved and the template should be updated with the beginner courses
+
+    // old css - const tabs = el.queryAll(By.css(".mat-mdc-tab-label"))
+    const tabs = el.queryAll(By.css('.mdc-tab__text-label'));
+
+    expect(tabs.length).toBe(1, "Unexpected number of tabs found");
 
   });
 
 
   it("should display only advanced courses", () => {
 
-      pending();
+    coursesService.findAllCourses.and.returnValue(of(advancedCourses));
+    fixture.detectChanges() 
+
+    const tabs = el.queryAll(By.css('.mdc-tab__text-label'));
+
+    expect(tabs.length).toBe(1, "Unexpected number of tabs found");
 
   });
 
 
   it("should display both tabs", () => {
 
-    pending();
+    coursesService.findAllCourses.and.returnValue(of(setupCourses()));
+    
+    fixture.detectChanges() 
 
-  });
+    const tabs = el.queryAll(By.css('.mdc-tab__text-label'));
+
+    expect(tabs.length).toBe(2, "Unexpected number of tabs found");
+
+  }); 
 
 
   it("should display advanced courses when tab clicked", () => {
