@@ -93,20 +93,20 @@ describe("HomeComponent", () => {
 
     fixture.detectChanges();
 
-    const tabs = el.queryAll(By.css(".mdc-tab__text-label"));
+    const tabs = el.queryAll(By.css(".mdc-tab"));
 
     click(tabs[1]);
 
     fixture.detectChanges();
 
     setTimeout(() => {
+      
+      const cardTitles = el.queryAll(By.css(".mat-mdc-card-title"));
 
-      const cardTitles = el.queryAll(By.css(".mat-card-title"));
-
-      expect(cardTitles.length).toBe(6, "Unexpected number of courses found");
+      expect(cardTitles.length).toBe(3, "Unexpected number of courses found");
 
       expect(cardTitles[0].nativeElement.textContent).toContain(
-        "Angular Security Course",
+        "Angular Security Course - Web Security Fundamentals",
       );
 
       done(); // if we pass done: DoneFn as an argument to the test function, we need to call done() to indicate that the test is complete. This is necessary when we have asynchronous code in our test, such as setTimeout, and we want to ensure that the assertions are made after the asynchronous code has completed.
